@@ -11,6 +11,7 @@ public class EuclidsGCDAlgo {
 
 	/**
 	 * @param int m, n : Integers of which GCD is to be found
+	 * The core of this algorithm is that GCD(m,n)  = GCD(n%m, m)
 	 */
 	
 	public static int euclidGCD(int m, int n){
