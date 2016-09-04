@@ -17,7 +17,7 @@ package com.shekspeare.algorithms;
 			 0,0,1,1
 			 0,1,0,1
  * 
- * Sol is  : X,X,X,-
+ * Sol is  : 		 X,X,X,-
 			 -,-,X,-
 			 -,-,X,X
 			 -,-,-,X
