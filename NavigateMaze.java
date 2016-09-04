@@ -12,7 +12,7 @@ package com.shekspeare.algorithms;
  * to the bottom right, such that it can only take 
  * a path if it the cell has value 1.
  * 
- * Eg: Maze: 1,1,1,0
+ * Eg: Maze: 		 1,1,1,0
 			 1,0,1,0
 			 0,0,1,1
 			 0,1,0,1
