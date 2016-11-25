@@ -12,12 +12,12 @@ package com.shekspeare.algorithms;
  * to the bottom right, such that it can only take 
  * a path if it the cell has value 1.
  * 
- * Eg: Maze: 		 1,1,1,0
+ * Eg: Maze: 1,1,1,0
 			 1,0,1,0
 			 0,0,1,1
 			 0,1,0,1
  * 
- * Sol is  : 		 X,X,X,-
+ * Sol is  : X,X,X,-
 			 -,-,X,-
 			 -,-,X,X
 			 -,-,-,X
@@ -45,7 +45,7 @@ public class NavigateMaze {
 		}
 		
 		if(isSafe(maze, n, x,y)){
-			sol[x][y] = 'X';
+			sol [x][y] = 'X';
 			
 			if(navigateMaze(maze,n,x+1,y,sol)) return true;  // move down
 			if(navigateMaze(maze,n,x,y+1,sol)) return true;  // move right
