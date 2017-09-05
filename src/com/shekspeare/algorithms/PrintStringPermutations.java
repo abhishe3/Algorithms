@@ -3,7 +3,10 @@
  */
 package com.shekspeare.algorithms;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,8 +54,18 @@ public class PrintStringPermutations {
 	public static void printArray(char[] array){
 		
 		System.out.println();
-		for(int i = 0 ; i < array.length ; i++){
+		for(int i = 0 ;
+				i < array.length ; i++){
 			System.out.print((i==0?"":",") + array[i]);
+		}
+	}
+	
+	public static void printArray(int[] array){
+		
+		System.out.println();
+		for(int i = 0 ;
+				i < array.length ; i++){
+			System.out.print((i==0?"":",")+ array[i]);
 		}
 	}
 	
@@ -66,20 +79,46 @@ public class PrintStringPermutations {
 		
 		for(int i=0; i<str.length;i++){
 			
-			if(count[i] == 0)
-				continue;
-			
-			result[level] = str[i];
-			count[i] --;	
-			permuteUtil(str, count, level+1, result);
-			count[i]++;
+		/*	if(count[i] == 0)
+				continue;*/
+			if(count[i]>0){	
+				result[level] = str[i];
+				count[i] --;	
+				permuteUtil(str, count, level+1, result);
+				count[i]++;
+			}
 		}
 		
 		
 	
 	}
 	
-
+	
+	
+	//Test : Given distinct numbers in an Array, print all combinations
+	
+	public static void permute(int[] arr){
+		
+		int [] result = new int[arr.length];		
+		permuteHelper (arr, result,0);
+		
+	}
+	
+	public static void permuteHelper (int[] arr, int[] result,int level){
+		
+		if(level==arr.length){
+			printArray(result);
+			return ;
+		}
+		
+		for(int i=0;i<arr.length;i++){
+			
+			result[level] = arr[i];
+			permuteHelper(arr,result,level+1);
+			
+		}
+		
+	}
 	
 	/**
 	 * @param args
@@ -88,10 +127,11 @@ public class PrintStringPermutations {
 		// TODO Auto-generated method stub
 		
 		char[] input = {'A','A', 'B','C'};
-		permute(input);
+		//permute(input);
 		
-		
-	
+		int[] inputArr = {2,3,5};
+		permute(inputArr);
+
 	}
 
 }

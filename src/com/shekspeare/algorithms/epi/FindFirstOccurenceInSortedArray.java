@@ -47,7 +47,7 @@ public class FindFirstOccurenceInSortedArray {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		int[] arr = {-14,-10,2,108,108,243,285,285,284,401};
-		System.out.println(binSearchFirstOccurrence(arr,108));
+		System.out.println(binSearchFirstOccurrence(arr,600));
 	}
 
 }

@@ -31,7 +31,7 @@ public class ReversePolishNotation {
 								break;
 								
 							case("-"):
-								result = operand_1-operand_2;
+								result = operand_1-operand_2;   // i think this should be operand 2 - operand 1
 								break;
 								
 							case("/"):

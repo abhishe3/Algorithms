@@ -4,13 +4,13 @@ public class SingletonExample {
 	
 	
 	
-		 private static SingletonExample theOneInstance = null;
+		 private static SingletonExample theOneInstance = null;   //**PTR: This has to be a static variable
 
-		 private SingletonExample() {
+		 private SingletonExample() {   //**PTR : this is a private constructor
 		 // do stuff to make the object
 		 }
 
-		 public static SingletonExample getInstance() {
+		 public static SingletonExample getInstance() {         //**PTR: This also has to be a static function
 		 if (theOneInstance == null) {
 		 theOneInstance = new SingletonExample();
 		 }

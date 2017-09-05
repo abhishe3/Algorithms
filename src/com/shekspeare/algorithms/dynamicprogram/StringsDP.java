@@ -64,7 +64,9 @@ public class StringsDP {
                 // subset number we get which numbers
                 // are present in the subset and which
                 // are not
-				if( (i & (1<<j)) > 0){     
+				
+				int x = 1<<j;
+				if( (i & (x)) > 0){     
 					System.out.print(str[j]+" ");
 				}
 				

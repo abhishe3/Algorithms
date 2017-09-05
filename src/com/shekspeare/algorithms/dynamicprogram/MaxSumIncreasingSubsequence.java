@@ -15,7 +15,7 @@ package com.shekspeare.algorithms.dynamicprogram;
  */
 
 public class MaxSumIncreasingSubsequence {
-
+   //See other code below this...its more concise and similar to LIS solution
 	public static int maxSum(int[] input){
 		int n = input.length;
 		int[][] temp = new int[n][n];
@@ -57,6 +57,41 @@ public class MaxSumIncreasingSubsequence {
 		
 	}
 	
+	
+	
+	//test: this is similar approach to lis question..LongestIncreasingSubsequence.java
+	
+	public static int maxSumSubSequence(int[] arr){
+		
+		int maxSum=0;
+		int n= arr.length;
+		int[] lis = new int[n];
+		
+		for(int i=0;i<n;i++){
+			lis[i]= arr[i];
+		}
+		
+		
+		for(int i=1; i<n;i++){
+			
+			for(int j = 0; j<i; j++){
+				
+				if(arr[j] < arr[i]){
+					
+					lis[i] = lis[j]+ arr[i];
+					if(lis[i]>maxSum){
+						maxSum = lis[i];
+					}
+				}
+				
+			}
+			
+		}
+		
+		return maxSum;
+	}
+	
+	
 	public static void printMatrix(int[][] a){
 		int n = a.length;
 		int m = a[0].length;
@@ -74,12 +109,12 @@ public class MaxSumIncreasingSubsequence {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		int arr[] = new int[]{1, 101, 2, 3, 100, 4, 5};
+		int arr[] = new int[]{-10,-2,5,-6}; //{1, 101, 2, 3, 100, 4, 5};
         System.out.println("Sum of maximum sum increasing "+
                            " subsequence is "+
         maxSum( arr ) );
 
-        
+        System.out.println(maxSumSubSequence(arr));
 
 	}
 

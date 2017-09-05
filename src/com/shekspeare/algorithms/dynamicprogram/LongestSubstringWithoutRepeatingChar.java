@@ -1,8 +1,13 @@
 package com.shekspeare.algorithms.dynamicprogram;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * http://www.geeksforgeeks.org/length-of-the-longest-substring-without-repeating-characters/
  * O(n)
+ * 
+ * Actually better solution is in EPI page 227 : Q 13.9 : See Code Below
  */
 public class LongestSubstringWithoutRepeatingChar {
 
@@ -62,11 +67,42 @@ public class LongestSubstringWithoutRepeatingChar {
 		
 		return maxLength;
 	}
+	
+	//EPI solution
+	
+	public static int longestUniqueSubstring (String str){
+		
+		int max=1;
+		
+		Map<Character,Integer> indexMap = new HashMap<Character,Integer>();
+		int currStartIdx = 0;
+		for(int i=0;i<str.length();i++){
+			
+			Integer lastIndex = indexMap.put(str.charAt(i), i);
+			
+			if(lastIndex!=null){
+				
+				if(lastIndex>=currStartIdx){
+					max = Math.max(max, i-currStartIdx);
+					currStartIdx=lastIndex+1;
+				}
+				
+			}
+			
+		}
+		
+		return Math.max(max, str.length()-currStartIdx);
+		
+		
+	}
+	
 	public static void main(String[] args) {
 		
-		 String str = "ABCDABDEFGCABD";
+		 String str = "GEEKSFORGEEKS";
 		 int result = longestUniqueSubst(str);
 		 System.out.println(result);
+		 
+		 System.out.println(longestUniqueSubstring(str));
 	}
 
 }

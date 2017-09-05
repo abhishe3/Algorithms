@@ -3,7 +3,10 @@
  */
 package com.shekspeare.algorithms.binarytrees;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -23,6 +26,13 @@ class Node{
 	Node(int item){
 		key = item;
 		left = right = null;		
+		
+	}
+	
+	Node(int item, Node leftChild, Node rightChild){
+		key = item;
+		left = leftChild;
+		right=rightChild;
 		
 	}
 }
@@ -76,6 +86,16 @@ public class BinaryTree {
 		
 		return (left==0?right:left);
 	}
+	
+	/**
+	 * The diameter of a tree T is the largest of the following quantities:
+
+* the diameter of T’s left subtree
+* the diameter of T’s right subtree
+* the longest path between leaves that goes through the root of T (this can be computed from the heights of the subtrees of T)	
+	 * @param node
+	 * @return
+	 */
 	
 	int diameter(Node node){
 		
@@ -394,6 +414,8 @@ public class BinaryTree {
 	
 	// Connect nodes at same level using constant extra space  : HAVENT TESTED THIS...SEE LINK BELOW AGAIN
 	// https://discuss.leetcode.com/topic/2202/a-simple-accepted-solution/12  (Comment from  tyuan73)
+	
+	//This only works for complete binary trees. Look for BFS solution below this that works for all cases
 	void connectRightNodes(Node root){
 		
 		while(root!=null){
@@ -409,6 +431,56 @@ public class BinaryTree {
 		}
 		
 		//call printTree to see the right nodes
+	}
+	
+	//Connect nodes at same level BFS (works for all cases) : Disadv : O(n) space (two queues)
+	// Algo: Use two queues. Push next level into next queue.
+	//       In each queue:
+	//                    (1) poll
+	//                    (2) if(queue size > 0) there are siblings, so curr.next = q.peek()
+	//                    (1) push left and then right child in other queue
+	
+	void connectRight(Node root){
+	    
+	    if(root==null)
+	        return;
+	        
+	    Queue<Node> q1 = new LinkedList<Node>();
+	    Queue<Node> q2 = new LinkedList<Node>();
+	    q1.add(root);
+	    
+	    while(!q1.isEmpty() || !q2.isEmpty()){
+	        
+	        while(!q1.isEmpty()){
+	            
+	            Node curr = q1.poll();
+	            if(q1.size()>0){
+	                curr.next=q1.peek();
+	            }
+	            
+	            if(curr.left!=null)
+	                q2.add(curr.left);
+	            if(curr.right!=null)
+	                q2.add(curr.right);
+	        }
+	        
+	        while(!q2.isEmpty()){
+	            
+	            Node curr = q2.poll();
+	            if(q2.size()>0){
+	                curr.next=q2.peek();
+	            }
+	            
+	            if(curr.left!=null)
+	                q1.add(curr.left);
+	            if(curr.right!=null)
+	                q1.add(curr.right);
+	        }
+	        
+	        
+	    }
+	    
+	    
 	}
 	
 	void BFSPrint(Node root){
@@ -507,7 +579,7 @@ public class BinaryTree {
 		throw new IllegalArgumentException();
 	}
 	
-	//return true if there is a root-leaf path with a given sum
+	//return true if there is a path with a given sum
 	 boolean findExistsSumPath(Node root, int sum){
 		
 		if(root==null) return false;
@@ -517,6 +589,17 @@ public class BinaryTree {
 		return ( findExistsSumPath(root.left,sum-root.key) || findExistsSumPath(root.right,sum-root.key));
 		
 	}
+	 
+	//return true if there is a root-leaf path with a given sum
+		 boolean findExistsSumPathRootToLeaf(Node root, int sum){
+			
+			if(root==null) return false;
+			
+			if(root.key==sum && root.left==null && root.right==null) return true;
+			
+			return ( findExistsSumPathRootToLeaf(root.left,sum-root.key) || findExistsSumPathRootToLeaf(root.right,sum-root.key));
+			
+		}
 
 	 // returns the sum of all integers in the tree weighted by their depth ( Sum at each level * level)
 	 int weightedTotalSum(Node root){
@@ -580,6 +663,162 @@ public class BinaryTree {
 		 return sum;
 	 }
 	 
+	 //          6
+	 //         /  \
+	 //        7    7
+	 //       /      \
+	 //      3        3
+	 //       \      /
+	 //        2     2
+	 boolean isTreeSymmetric(Node root){
+		 
+		 if(root==null) return true;
+		 
+		 return isTreeSymmetricUtil(root.left,root.right);
+	 }
+	 
+	 boolean isTreeSymmetricUtil(Node subTree1, Node subTree2){
+		 
+		 if(subTree1==null && subTree2==null) return true;
+		 
+		 if(subTree1!=null && subTree2!=null) {
+			 return ( ( subTree1.key == subTree2.key) &&
+					  (isTreeSymmetricUtil(subTree1.left, subTree2.right)) &&
+					  (isTreeSymmetricUtil(subTree1.right, subTree2.left))
+					 ); 
+		 }
+		  //One of them is null.. so cannot be symmetric
+		 return false;
+	 }
+	 
+	 //Create Binary Tree from Inorder and PreOrder list
+	 //Refer Question 10.12 : Page 167 EPI
+	 
+	 Node createBinTreeFromInorderPreOrder(List<Integer> preOrder, List<Integer> inOrder){
+		 
+		 Map<Integer,Integer> inOrderMap = new HashMap<Integer,Integer>();
+		 
+		 for(int i=0;i<inOrder.size();i++){
+			 inOrderMap.put(inOrder.get(i),i);
+		 }
+		 
+		 return (createBinTreeFromInorderPreOrderHelper(preOrder,0,preOrder.size(),0,inOrder.size(),inOrderMap));
+
+	 }
+	 
+	 Node createBinTreeFromInorderPreOrderHelper(List<Integer> preOrder, int preOrderStart, int preOrderEnd, int inOrderStart, int inOrderEnd, Map<Integer,Integer> inOrderMap){
+		 
+		 if(preOrderStart>=preOrderEnd || inOrderStart>=inOrderEnd){
+			 return null;
+		 }
+		 
+		 int rootIndx = inOrderMap.get(preOrder.get(preOrderStart)) ;
+		 int leftSubTreeSize = rootIndx - inOrderStart;
+		 
+		 return new Node(
+				 preOrder.get(preOrderStart),
+				 createBinTreeFromInorderPreOrderHelper(preOrder,preOrderStart+1,preOrderStart+1+leftSubTreeSize, inOrderStart,rootIndx,inOrderMap),
+				 createBinTreeFromInorderPreOrderHelper(preOrder,preOrderStart+1+leftSubTreeSize,preOrderEnd, rootIndx+1,inOrderEnd,inOrderMap)
+				 );
+		 
+	 }
+	 
+	 //Create LList of leaves in a Binary Tree
+	 // Basically do an inOrderTraversal
+	 // Refer Question 10.14 page 170 , EPI
+	 List<Integer> createListFromLeaves(Node root){
+		 
+		 if(root==null) return null;
+		 
+		 List<Integer> llist = new LinkedList<Integer>();
+		 
+		 return createListFromLeavesUtil(root,llist);
+		 
+	 }
+	 
+	 List<Integer> createListFromLeavesUtil(Node root,List<Integer> llist){
+		 
+		 if(root==null) return null;
+		 
+		 createListFromLeavesUtil(root.left,llist);
+		 
+		 if(root.left==null && root.right==null){
+			 llist.add(root.key);
+		 }	 
+		 createListFromLeavesUtil(root.right,llist);
+		 
+		 return llist;
+	 }
+	 
+	 
+	 
+	 //Print exteriors of a tree
+	 // See diagram at http://www.geeksforgeeks.org/wp-content/uploads/BoundryTraversal.gif
+	 
+		// A function to print all left boundary nodes, except a leaf node.
+		// Print the nodes in TOP DOWN manner
+	 void printLeftExterior_a(Node node){
+		    
+		    if(node==null) return;
+
+		    
+		    if(node.left!=null){
+		    	// to ensure top down order, print the node
+				// before calling itself for left subtree
+		        System.out.print(node.key+" ");
+		        printLeftExterior_a(node.left);
+		    }
+		    else if(node.right!=null){
+		         System.out.print(node.key+" ");
+		         printLeftExterior_a(node.right);
+		    }
+		    
+		}
+		
+		// A function to print all right boundary nodes, except a leaf node
+		// Print the nodes in BOTTOM UP manner
+		void printRightExterior_a(Node node){
+		    
+		    if(node==null) return;
+		    
+		    if(node.right!=null){
+		    	// to ensure bottom up order, first call for right
+				// subtree, then print this node
+		        printRightExterior_a(node.right);
+		        System.out.print(node.key+" ");
+		    }
+		    else if(node.left!=null){
+		         printRightExterior_a(node.left);
+		         System.out.print(node.key+" ");
+		    }
+		    
+		}
+		
+		// A function to do print leaves only
+		void printTreeLeaves(Node node){
+		    
+		    if(node==null) return;
+		    
+		    printTreeLeaves(node.left);
+		    if(node.left==null && node.right==null){
+		         System.out.print(node.key+" ");
+		    }
+		    printTreeLeaves(node.right);
+		}
+		
+		// A function to do boundary traversal of a given binary tree
+		void printExterior(Node root){
+		    
+		    if(root==null)
+		      return;
+		     
+		    //first print root
+		      System.out.print(root.key+" ");  
+		      printLeftExterior_a(root.left);
+		      printTreeLeaves(root);
+		      printRightExterior_a(root.right);
+		      
+		}
 
 	/**
 	 * @param args
@@ -605,7 +844,7 @@ public class BinaryTree {
 		tree.root.right.right.right = new Node(7);*/
 		
 		
-		tree.root = new Node(1);
+/*		tree.root = new Node(1);
 		tree.root.left = new Node(2);
 		tree.root.right = new Node(3);
 		tree.root.left.left = new Node(4);
@@ -613,7 +852,7 @@ public class BinaryTree {
 		tree.root.right.left = new Node(9);
 		tree.root.right.right = new Node(8);
 		tree.root.right.right.left = new Node(6);
-		tree.root.right.right.right = new Node(7);
+		tree.root.right.right.right = new Node(7);*/
 		
 	/*	tree.root = new Node(6);
 		tree.root.right = new Node(9);
@@ -633,7 +872,7 @@ public class BinaryTree {
 		//tree.printkLevelNodes(tree.root, 8);
 		//tree.printAncestors(tree.root, 7);
 		
-		System.out.println(tree.getDepth(tree.root, tree.root.right.left));
+		//System.out.println(tree.getDepth(tree.root, tree.root.right.left));
 		
 	
 	//	tree.printAncestorsNew(tree.root, 7);
@@ -644,10 +883,32 @@ public class BinaryTree {
 	//	 System.out.println(tree.isBalancedTree(tree.root, new Height()));
 		
 		//tree.callMe(null);
-		System.out.println(tree.findExistsSumPath(tree.root,20));
+		//System.out.println(tree.findExistsSumPath(tree.root,12));
+		//System.out.println(tree.findExistsSumPathRootToLeaf(tree.root,18));
 		//System.out.println(tree.lengthOflongestConsecutivePath(tree.root));
 
-		System.out.println(tree.weightedTotalSum(tree.root));
+		//System.out.println(tree.weightedTotalSum(tree.root));
+		
+		
+		//Symmetric tree test
+		tree.root = new Node(1);
+		tree.root.left = new Node(2);
+		tree.root.right = new Node(2);
+		tree.root.left.left = new Node(4);
+		tree.root.left.right = new Node(5);
+		tree.root.right.left = new Node(5);
+		tree.root.right.right = new Node(4);
+		tree.root.right.right.left = new Node(6);
+		tree.root.right.right.right = new Node(7);
+		
+		//System.out.println(tree.isTreeSymmetric(tree.root));
+/*		List<Integer>llist = tree.createListFromLeaves(tree.root);
+		
+		for(Integer i: llist){
+			System.out.print(i + " -> ");
+		}*/
+		
+		tree.printExterior(tree.root);
 	}
 
 }

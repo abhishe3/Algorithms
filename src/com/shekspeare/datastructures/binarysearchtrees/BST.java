@@ -88,7 +88,7 @@ public class BST {
 		if(key < root.key){
 			root.left = deleteNodeUtil(root.left, key);
 		}else if(key > root.key){
-			root.left = deleteNodeUtil(root.right, key);
+			root.right = deleteNodeUtil(root.right, key);
 		}else{    // this means that root.key = key .. and so THIS is the node to be deleted
 			
 			// Case 1: if it is a leaf; simply delete it
@@ -98,11 +98,9 @@ public class BST {
 			}
 			// Case 2: if it has only one child ; either left or right; copy the child's data to this node (root = root.left/right);
 			else if (root.left==null){
-				root = root.right;
-				return root;
+				return root.right;
 			}else if(root.right==null){
-				root = root.left;
-				return root;
+				return root.left;
 			}
 			
 			// Case 3: it has two children , replace node with the smallest element in the right-subtree (left most child in the right subtree)
@@ -130,6 +128,50 @@ public class BST {
 		
 		return minVal;
 	}
+/*	
+	//trial
+	Node deleteNodesLargerThan(Node root, int value){
+		
+		if(root==null) return null;
+		
+		//search
+		 if(root.key>value){
+			 root.left = deleteNodesLargerThan(root.left,value);
+			 return root.left;
+		 }
+		 
+		 if(root.key<value){
+			 root.right = deleteNodesLargerThan(root.right, value);
+			 return root;
+		 }
+		 
+		 if(root.key ==value){
+			 root.right = null;
+		 
+		 if(root.left!=null){
+			 //search rightmost child in left subtree
+			 int minval = searchleftChild(root.left);
+			 root.key = minval;
+			 Node currRoot
+		 }
+		 }
+	}
+	
+	
+	int searchleftChild(Node root){
+		
+		int minval = root.key;
+		while(root.left!=null){
+			root=root.left;
+			minval = root.key;
+		}
+		
+		return minval;
+	}
+	*/
+
+	//Read this as well:
+	// http://www.geeksforgeeks.org/remove-bst-keys-outside-the-given-range/
 	
 	
 	//Inorder predecessor and successor for a given key in BST (http://www.geeksforgeeks.org/inorder-predecessor-successor-given-key-bst/)

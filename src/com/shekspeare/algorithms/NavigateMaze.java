@@ -61,6 +61,32 @@ public class NavigateMaze {
 		return false;
 	}
 	
+	
+	static void navigateMaze1(int[][] maze, int n, int x, int y, char[][] sol){
+		
+		if(x==n-1 && y==n-1 && maze[x][y]==1){    //base case of recursion; we have reached bottom-right-most index of maze; exit 
+			sol[x][y] ='X';                       //mark the solution matrix with 'X'
+			return ;
+		}
+		
+		
+			sol [x][y] = 'X';
+			
+			if(isSafe(maze,n,x+1,y)){
+				navigateMaze1(maze,n,x+1,y,sol) ;  // move right
+			}
+			
+			else if(isSafe(maze,n,x,y+1)) {
+				navigateMaze1(maze,n,x,y+1,sol);
+			}
+		
+
+
+			//System.out.println("Backtracked");   //None of the options were safe; backtrack by marking sol[x][y] as '-'
+			sol[x][y] = '-';
+		
+	}
+	
 	/* This function checks if it is safe to navigate to a given cell 
 	 * in the maze, by ensuring that:
 	 * 	1:  the indices x and y are within the range [0,n)
@@ -113,7 +139,13 @@ public class NavigateMaze {
 		}else{
 			System.out.println("Solution not found!!... No possible path exists..");
 		}
-
+		
+		
+		
+		int[][] maze1 = {{1,1,1,0},{1,0,1,0},{0,0,1,1},{0,1,0,1}};
+		char[][] sol1 = {{'-','-','-','-'},{'-','-','-','-'},{'-','-','-','-'},{'-','-','-','-'}}; //solution array being initialized
+		navigateMaze(maze1, n, 0, 0,sol1);
+		printSolution(sol1);
 	}
 
 }

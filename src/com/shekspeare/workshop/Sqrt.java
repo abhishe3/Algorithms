@@ -1,5 +1,8 @@
 package com.shekspeare.workshop;
 
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Find sqrt of a num
@@ -15,6 +18,12 @@ package com.shekspeare.workshop;
  *
  */
 public class Sqrt {
+	
+	public static Set<Integer> map = new HashSet<Integer>();
+	
+	static{                                          //**PTR: this is only to show that we can initialize static objects in a static block.
+		map.add(1);
+	}
 	
 	public static int sqrt(int num){
 		
@@ -42,8 +51,7 @@ public class Sqrt {
 			
 		}
 		
-		return result;
-		
+		return result;		
 	}
 
 	public static void main(String[] args) {

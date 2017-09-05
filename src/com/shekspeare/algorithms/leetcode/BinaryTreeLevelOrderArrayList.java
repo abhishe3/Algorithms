@@ -34,9 +34,9 @@ public class BinaryTreeLevelOrderArrayList {
 		
 		if(root==null) return masterList;
 		
-		LinkedList<TreeNode> currQ = new LinkedList<TreeNode>();  //**PTR: - WE cannot instantiate a Queue with new Queue() since Queue is an interface. So use LinkedList. 
+		Queue<TreeNode> currQ = new LinkedList<TreeNode>();  //**PTR: - WE cannot instantiate a Queue with new Queue() since Queue is an interface. So use LinkedList. 
 																 // Also if adding to queue, don't use q.push() as it adds to the end of the queue. Use q.add() as it adds to the front of the queue.
-		LinkedList<TreeNode> nextQ = new LinkedList<TreeNode>();  //**PTR: - However, we can instantiate a Stack with new Stack(); 
+		Queue<TreeNode> nextQ = new LinkedList<TreeNode>();  //**PTR: - However, we can instantiate a Stack with new Stack(); 
 		
 		
 		List <Integer> list = new ArrayList<Integer>();
@@ -44,7 +44,7 @@ public class BinaryTreeLevelOrderArrayList {
 		
 		while(!currQ.isEmpty()){   
 			
-			TreeNode node = currQ.pop();
+			TreeNode node = currQ.poll();
 			list.add(node.val);
 			
 			if(node.left!=null){

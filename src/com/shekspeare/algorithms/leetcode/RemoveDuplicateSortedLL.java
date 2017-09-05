@@ -39,9 +39,9 @@ public class RemoveDuplicateSortedLL {
 				node.next = node.next.next;
 			}
 			
-			else{
-				node=node.next;
-			}
+			
+			node=node.next;
+			
 		}
 		
 		return head;
@@ -161,9 +161,15 @@ public LinkNode deleteDuplicates_2(LinkNode head) {
 		nodea5.next=nodea6;
 		
 		
-		//System.out.print(solution.deleteDuplicates_1(nodea1).val);
+	//System.out.print(solution.deleteDuplicates_1(nodea1).val);
 		
-		solution.printLL(solution.deleteDuplicates_2(nodea1));
+		LinkNode head = solution.deleteDuplicates_1(nodea1);
+		while(head!=null){
+			System.out.print(head.val);
+			head=head.next;
+		}
+		
+		///solution.printLL(solution.deleteDuplicates_2(nodea1));
 		
 		//solution.reverseLL(nodea1);
 		//solution.printLL(solution.reverseLL(nodea1));
