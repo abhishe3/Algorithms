@@ -111,7 +111,7 @@ public class PrintStringPermutations {
 			return ;
 		}
 		
-		for(int i=0;i<arr.length;i++){
+		for(int i=level;i<arr.length;i++){
 			
 			result[level] = arr[i];
 			permuteHelper(arr,result,level+1);

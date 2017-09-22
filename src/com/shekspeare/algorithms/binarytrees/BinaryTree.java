@@ -3,6 +3,7 @@
  */
 package com.shekspeare.algorithms.binarytrees;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -819,6 +820,60 @@ public class BinaryTree {
 		      printRightExterior_a(root.right);
 		      
 		}
+		
+		
+		
+		
+		static void printDiagonal(Node root){
+			
+			if(root==null) return ;
+			
+			List<List<Node>> diagonalNodeList = new ArrayList<List<Node>>();
+			
+			printDiagonalUtil(root,0,diagonalNodeList);
+			printList(diagonalNodeList);
+			
+		}
+		
+		static void printDiagonalUtil(Node root, int distance, List<List<Node>> diagonalList){
+			
+			if(root ==null) return;
+			
+			if(diagonalList.size()==distance){     //since ArrayList.get(index) throws IndexOutOfBoundsException - if the index is index == size())
+				diagonalList.add(distance, new ArrayList<Node>());
+			}
+			
+			List<Node> levelList = diagonalList.get(distance);
+			
+			if(levelList==null){
+				diagonalList.add(distance, new ArrayList<Node>());
+			}
+			
+			diagonalList.get(distance).add(root);
+			
+			printDiagonalUtil(root.right, distance, diagonalList);
+			printDiagonalUtil(root.left, distance+1, diagonalList);
+			
+		}
+		
+		static void printList(List<List<Node>> diagonalNodeList){
+			
+			if(diagonalNodeList!=null){
+				
+				for(List<Node> list : diagonalNodeList){
+					
+					for(Node node : list){
+						System.out.print(node.key+" ");
+					}
+					
+					System.out.println();
+					
+				}
+				
+				
+			}
+			
+		}
 
 	/**
 	 * @param args
@@ -891,7 +946,7 @@ public class BinaryTree {
 		
 		
 		//Symmetric tree test
-		tree.root = new Node(1);
+		/*tree.root = new Node(1);
 		tree.root.left = new Node(2);
 		tree.root.right = new Node(2);
 		tree.root.left.left = new Node(4);
@@ -899,7 +954,7 @@ public class BinaryTree {
 		tree.root.right.left = new Node(5);
 		tree.root.right.right = new Node(4);
 		tree.root.right.right.left = new Node(6);
-		tree.root.right.right.right = new Node(7);
+		tree.root.right.right.right = new Node(7);*/
 		
 		//System.out.println(tree.isTreeSymmetric(tree.root));
 /*		List<Integer>llist = tree.createListFromLeaves(tree.root);
@@ -908,7 +963,20 @@ public class BinaryTree {
 			System.out.print(i + " -> ");
 		}*/
 		
-		tree.printExterior(tree.root);
+		//tree.printExterior(tree.root);
+		
+		
+		 Node root = new Node(8);
+	        root.left = new Node(3);
+	        root.right = new Node(10);
+	        root.left.left = new Node(1);
+	        root.left.right = new Node(6);
+	        root.right.right = new Node(14);
+	        root.right.right.left = new Node(13);
+	        root.left.right.left = new Node(4);
+	        root.left.right.right = new Node(7);
+	        
+	        printDiagonal(root);
 	}
 
 }

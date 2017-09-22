@@ -3,6 +3,9 @@
  */
 package com.shekspeare.datastructures.binarysearchtrees;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author abashok
  *
@@ -370,6 +373,30 @@ public class BST {
 		
 	}
 	
+	//Given a node, return the next highest node...
+	//Can be done by Inorder traversal, but it does not take adv of BST's ordered nature.
+	// This solution is from EPI : Q15.2 page 262
+	public static int nextHighest(Node root, int k){
+	    
+	    if(root==null) return -1;
+	    
+	    Node node = root;
+	    Node nextHighest = null;
+	    
+	    while(node!=null){
+	          if(node.key>k){
+	      
+	            nextHighest=node;
+	            node=node.left;
+	          }else{
+	            node=node.right;
+	          }
+	    }
+	  
+	      return (nextHighest==null?-1:nextHighest.key);
+	    
+	  }
+	
 	
 	void inOrderTraversal(Node root){
 		if(root==null) return;
@@ -379,7 +406,81 @@ public class BST {
 		inOrderTraversal(root.right);
 	}
 	
-
+//Print the K largest elements in a BST
+//Soln: Do a reverse Inorder (right>>root>>left) and fill the list till it reaches size k
+//EPI Q 15.3 Page 263
+	public static List<Integer> getKLargestNodes(Node root, int k){
+	    
+	    List<Integer> list = new ArrayList<Integer>();
+	    
+	    if(root==null || k==0) return null;    
+	    getKLargestNodesUtil(root,list,k);
+	    return list;
+	    
+	  }
+	  
+	  
+	   public static void getKLargestNodesUtil(Node root, List<Integer> list, int k ){
+	     
+	     if(root==null) return;
+	     
+	     getKLargestNodesUtil(root.right,list,k);
+	     
+	     if(list.size()<k){
+	      list.add(root.key);
+	     }
+	     
+	     if(list.size()==k){
+	       return;
+	     }
+	     
+	     getKLargestNodesUtil(root.left,list,k);
+	     
+	   }
+	
+	   
+	   //Create min height BST from sorted array
+	   // Soln Idea: EPI Q15.9 page 275
+	   public static Node createMinHeightTree(int[] arr){
+		    
+		    return createMinHeightTreeUtil(arr,0,arr.length-1);
+		    
+		  }
+		 
+		  
+		  public static Node createMinHeightTreeUtil(int[] arr, int low,int high){
+		    
+		    if(low<=high){
+		      
+		      
+		      int mid = low + (high-low)/2;
+		      
+		      Node root = new Node(arr[mid]);
+		      
+		      root.left = createMinHeightTreeUtil(arr,low,mid-1); 
+		      root.right =createMinHeightTreeUtil(arr,mid+1,high);
+		      
+		      return root;
+		      
+		    }else{
+		      
+		      return null;
+		    }
+		    
+		    
+		    
+		  }
+		  
+		  public static void inOrder(Node root){
+		    
+		    if(root==null) return;
+		    
+		    inOrder(root.left);
+		    System.out.print(root.key+" ");
+		    inOrder(root.right);
+		    
+		    
+		  }
 
 
 	/**
