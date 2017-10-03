@@ -155,7 +155,7 @@ public class TrieWithHashMap {
 			
 			//System.out.println(trie.search("catering"));
 			
-			List<String> list = trie.getWordsList("f");
+			List<String> list = trie.getWordsList("ca");
 			if(null!=list){
 				for(String s : list){
 					System.out.println(s);
