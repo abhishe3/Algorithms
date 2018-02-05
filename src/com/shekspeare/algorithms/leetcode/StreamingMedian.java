@@ -2,6 +2,7 @@ package com.shekspeare.algorithms.leetcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -9,7 +10,7 @@ import java.util.PriorityQueue;
 public class StreamingMedian {
 	
 	static PriorityQueue<Integer> minHeap = new PriorityQueue<Integer>();
-	static PriorityQueue<Integer> maxHeap = new PriorityQueue<Integer>();
+	static PriorityQueue<Integer> maxHeap = new PriorityQueue<Integer>(Collections.reverseOrder());  //**PTR: this is how to make a max heap by default
 	
 	public static int calculateStreamingMedian(List<Integer> stream){
 		

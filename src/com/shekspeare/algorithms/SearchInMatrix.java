@@ -1,8 +1,6 @@
 package com.shekspeare.algorithms;
 
-/** http://www.geeksforgeeks.org/search-in-row-wise-and-column-wise-sorted-matrix/
- * 
- * Done differently here than in above link. Used Binary search .
+/** Used the technic in EPI (look in Searching chapter)..very simple
  * 
  * @author abashok
  *
@@ -10,44 +8,28 @@ package com.shekspeare.algorithms;
 
 public class SearchInMatrix {
 
-	public static void findInSortedMatrix(int[][]arr, int x){
-		
-		int m = arr.length; //rows
-		int n = arr[0].length; //cols
-		
-		//Start with top-right
-		int j = n-1;
-		
-		
-		while(x<arr[0][j]){  
-			j--;
-		} 					//found the column . it is in j
-							
-		//Binary search in col j;
-		int low = 0;
-		int high= m-1;
-		
-		while(low<high){
-		
-			int mid = low + (high-low)/2;
-			
-			if(arr[mid][j] == x){
-				System.out.println("Found "+x+" at ("+mid+","+j+")");
-				return;
-			}
-			
-			if(arr[mid][j] > x){
-				high=mid;
-			}
-			else{
-				low=mid;
-			}
-		}
-		
-		System.out.print("Not found");
-		
-		
-	}
+	
+    public static boolean search(int[][] matrix,int x){
+    	
+    	int m = matrix.length;
+    	int n = matrix[0].length;
+    	
+    	int row=0,col=n-1;
+    	
+    	while(row>=0 && row<m && col<n&& col>=0){
+    		
+    		if(x==matrix[row][col]){
+    			return true;
+    		}else if(x<matrix[row][col]){ //column and below is eliminated
+    			col--;
+    		}else{  //row is eliminated
+    			row++;
+    		}
+    		
+    	}
+    	
+    	return false;
+    }
 	
 	
 	public static void main(String[] args) {
@@ -58,7 +40,9 @@ public class SearchInMatrix {
                 {32, 33, 39, 50},
               };
 		
-		findInSortedMatrix(mat,29);
+	//	findInSortedMatrix(mat,51);
+		
+		System.out.println(search(mat,10));
 		
 	}
 

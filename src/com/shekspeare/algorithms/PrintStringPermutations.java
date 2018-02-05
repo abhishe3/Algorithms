@@ -95,30 +95,6 @@ public class PrintStringPermutations {
 	
 	
 	
-	//Test : Given distinct numbers in an Array, print all combinations
-	
-	public static void permute(int[] arr){
-		
-		int [] result = new int[arr.length];		
-		permuteHelper (arr, result,0);
-		
-	}
-	
-	public static void permuteHelper (int[] arr, int[] result,int level){
-		
-		if(level==arr.length){
-			printArray(result);
-			return ;
-		}
-		
-		for(int i=level;i<arr.length;i++){
-			
-			result[level] = arr[i];
-			permuteHelper(arr,result,level+1);
-			
-		}
-		
-	}
 	
 	/**
 	 * @param args
@@ -127,11 +103,8 @@ public class PrintStringPermutations {
 		// TODO Auto-generated method stub
 		
 		char[] input = {'A','A', 'B','C'};
-		//permute(input);
+		permute(input);
 		
-		int[] inputArr = {2,3,5};
-		permute(inputArr);
-
 	}
 
 }

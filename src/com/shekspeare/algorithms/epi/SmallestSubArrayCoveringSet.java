@@ -82,7 +82,7 @@ public class SmallestSubArrayCoveringSet {
 		
 		List<String> paragraph = new ArrayList<String>(Arrays.asList("apple","banana","apple","apple","dog","cat","apple","dog","banana","apple","cat","dog"));
 		
-		Set<String> keyWords = new HashSet<String>(Arrays.asList("banana","cat"));
+		Set<String> keyWords = new HashSet<String>(Arrays.asList("banana","cat","banana"));
 		
 		Pair result = getSubArrayCoveringSet(keyWords,paragraph);
 		

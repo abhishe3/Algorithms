@@ -74,6 +74,15 @@ public class AlienDictionary {
 	        }
 	    }
 	    
+	    
+	    /*  Final Degree...the number means "how many letters come before the key":
+	     *  w:0
+			r:1
+			t:1
+			f:1
+			e:1
+	     * 
+	     */
 	    //Topological Sort : BFS 
 	    Queue<Character> q=new LinkedList<Character>();
 	    for(char c: degree.keySet()){
